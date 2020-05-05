@@ -1,0 +1,30 @@
+version: "3"
+services:
+    sv01:
+        container_name: sv01
+        build:
+            context: ./sv01
+            dockerfile: nginx.Dockerfile
+        networks:
+            - ngixLB
+    sv02:
+        container_name: sv02
+        build:
+            context: ./sv02
+            dockerfile: nginx.Dockerfile
+        networks:
+            - ngixLB
+    master:
+        container_name: master
+        build:
+            context: ./master
+            dockerfile: nginx.Dockerfile
+        networks:
+            - ngixLB
+        ports:
+            - "8888:80"
+        depends_on:
+            - sv01
+            - sv02
+networks:
+    ngixLB:
